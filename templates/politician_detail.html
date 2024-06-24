@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Politician Detail</title>
+</head>
+<body>
+    <h1>{{ politician.name }}</h1>
+    <p><strong>Party:</strong> {{ politician.party }}</p>
+    <p><strong>Constituency:</strong> {{ politician.constituency }}</p>
+    <p><strong>Contact:</strong> {{ politician.contact }}</p>
+    <p><strong>Gender:</strong> {{ politician.gender }}</p>
+    <p><strong>Election Count:</strong> {{ politician.election_count }}</p>
+    <p><strong>Election Method:</strong> {{ politician.election_method }}</p>
+    <p><strong>Attendance:</strong> {{ politician.attendance }}</p>
+
+    <h2>Assets</h2>
+    <ul>
+        <li><strong>Land:</strong> {{ politician.land }}</li>
+        <li><strong>Building:</strong> {{ politician.building }}</li>
+        <li><strong>Car:</strong> {{ politician.car }}</li>
+        <li><strong>Deposit:</strong> {{ politician.deposit }}</li>
+        <li><strong>Political Fund:</strong> {{ politician.political_fund }}</li>
+        <li><strong>Securities:</strong> {{ politician.securities }}</li>
+    </ul>
+
+    <h2>Related News</h2>
+    <ul>
+        {% if news_data %}
+            {% for news_item in news_data %}
+            <li>
+                <a href="{{ news_item.link }}" target="_blank">{{ news_item.title | safe }}</a>
+                <p>{{ news_item.description | safe }}</p>
+            </li>
+            {% endfor %}
+        {% else %}
+            <p>No related news found.</p>
+        {% endif %}
+    </ul>
+
+    <a href="/politicians">Back to list</a>
+</body>
+</html>

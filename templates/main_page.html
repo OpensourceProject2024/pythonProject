@@ -1,0 +1,99 @@
+<!-- myapi/templates/main_page.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <style>
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #000;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        form {
+            margin-top: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/attendance">출석률</a>
+            <a href="/politicians">정치인</a>
+            <a href="/quiz">퀴즈</a>
+            {% if username %}
+                <a href="/logout">로그아웃</a>
+            {% else %}
+                <a href="/login">로그인</a>
+            {% endif %}
+        </nav>
+    </header>
+    <main>
+        <h1>Welcome to the Main Page{% if username %}, {{ username }}{% endif %}</h1>
+        <form action="/search" method="get">
+            <input type="text" name="query" placeholder="Search..." required>
+            <button type="submit">Search</button>
+        </form>
+        {% if query %}
+            <h2>Search Results for "{{ query }}"</h2>
+            {% if results %}
+                <ul>
+                    {% for result in results %}
+                        <li>{{ result.name }} - {{ result.party }} - {{ result.constituency }} - {{ result.contact }} - {{ result.gender }} - {{ result.election_count }} - {{ result.election_method }} - 출석: {{ result.attendance }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No results found for your search.</p>
+            {% endif %}
+        {% else %}
+            <h2>Politicians</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Party</th>
+                        <th>Attendance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for politician in politicians %}
+                        <tr onclick="window.location.href='/politicians/{{ politician.id }}'">
+                            <td>{{ politician.name }}</td>
+                            <td>{{ politician.party }}</td>
+                            <td>{{ politician.attendance }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </main>
+</body>
+</html>
